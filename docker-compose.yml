@@ -32,7 +32,7 @@ services:
     networks:
       - nodejs
     ports:
-      - "3030:3030"
+      - "3030:80"
     environment:
       - PMA_HOST=myspa-mysql
       - PMA_PORT=3306

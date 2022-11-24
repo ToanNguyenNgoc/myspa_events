@@ -13,7 +13,7 @@ module.exports = function (app) {
         if (data.length > 0) {
           const formatValue = data.map(
             (item) =>
-              `('${item.id}', '${item.name}', '${item.company}', '${item.phone}, '${item.check_in}')`
+              `('${item.id}', '${item.name}', '${item.company}', '${item.phone}', '${item.check_in}')`
           );
           const query =
             "INSERT INTO `customers` (`id`, `name`, `company`, `phone`, `check_in`) VALUES" +
