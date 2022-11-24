@@ -1,7 +1,20 @@
 version: '3.7'
 
 services:
-  
+  nodejs:
+    build: 
+      context: .
+    image: amakundu/nodejs-mysql-app
+    networks:
+      - nodejs
+    environment:
+      - MYSQL_HOST=myspa-mysql
+      - MYSQL_USER=root
+      - MYSQL_PASS=root
+      - MYSQL_DB=myspa_checkin
+    ports:
+      - "30001:3030"
+    container_name: moe-nodejs-app
   mysql:
     platform: linux/x86_64
     image: mysql:5.7
