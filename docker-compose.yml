@@ -4,7 +4,7 @@ services:
   nodejs:
     build: 
       context: .
-    image: amakundu/nodejs-mysql-app
+    image: myspa/nodejs-mysql-app
     networks:
       - nodejs
     environment:
@@ -13,8 +13,8 @@ services:
       - MYSQL_PASS=root
       - MYSQL_DB=myspa_checkin
     ports:
-      - "30001:3030"
-    container_name: moe-nodejs-app
+      - "3031:3030"
+    container_name: nodejs-mysql-app
   mysql:
     platform: linux/x86_64
     image: mysql:5.7
@@ -32,13 +32,13 @@ services:
     networks:
       - nodejs
     ports:
-      - "3309:80"
+      - "3030:3030"
     environment:
       - PMA_HOST=myspa-mysql
       - PMA_PORT=3306
     volumes:
       - /sessions
-    container_name: moe-phpmyadmin-app
+    container_name: myspa-phpmyadmin-app
 volumes:
   mysql:
   phpmyadmin_data:
