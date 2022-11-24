@@ -2,11 +2,11 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME || "myspa_checkin",
-  process.env.DB_USER || process.env.DB_USER || "root",
-  process.env.DB_PASSWORD || "",
+  process.env.MYSQL_DB || "myspa_checkin",
+  process.env.MYSQL_USER || "root",
+  process.env.MYSQL_PASS || "",
   {
-    host: process.env.DB_HOST || "localhost",
+    host: process.env.MYSQL_HOST || "localhost",
     dialect: "mysql",
     operatorsAliases: false,
     port: process.env.PORT || "3306",
