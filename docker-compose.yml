@@ -1,49 +1,34 @@
 version: '3.7'
 
 services:
+  
   mysql:
-    image: mysql:8.0
-    container_name: event_nodejs
-    restart: unless-stopped
+    platform: linux/x86_64
+    image: mysql:5.7
+    networks:
+      - nodejs
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=root
       - MYSQL_DATABASE=myspa_checkin
-    ports:
-     - "3308:3306"  
-    networks: 
-      - nodejss
+    container_name: myspa-mysql
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.1
+    image: phpmyadmin/phpmyadmin:4.7
     depends_on:
       - mysql
     networks:
-      - nodejss
+      - nodejs
     ports:
       - "3309:80"
     environment:
-      - PMA_HOST=moe-mysql-app
-      - PMA_PORT= 3306
+      - PMA_HOST=myspa-mysql
+      - PMA_PORT=3306
     volumes:
       - /sessions
     container_name: moe-phpmyadmin-app
-  web:
-    depends_on:
-      - mysql
-    build: ./
-    ports: 
-     - "3030:3030"
-    volumes:
-    - ./:/app
-    restart: unless-stopped
-    container_name: nodejs
-    stdin_open: true
-    tty: true
-    networks: 
-      - nodejss
-
 volumes:
-  db:
+  mysql:
+  phpmyadmin_data:
 
 networks:
-  nodejss:
+  nodejs:
