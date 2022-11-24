@@ -28,11 +28,15 @@ module.exports = function (app) {
         });
       });
   });
-
-  app.route("/api/customers").post((req, res) => {
+  /**
+   * {
+   *  script: string[]
+   * }
+   */
+  app.route("/api/customers").post(async (req, res) => {
     const { script } = req.body;
-    script.forEach((element) => {
-      const [results, metadata] = sequelize.query(element);
+    script.forEach(async (element) => {
+      await db.sequelize.query(element);
     });
     res.send({
       message: "send data success",

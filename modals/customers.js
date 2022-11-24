@@ -18,6 +18,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       phone: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        unique: false,
       },
       check_in: {
         type: DataTypes.BOOLEAN,

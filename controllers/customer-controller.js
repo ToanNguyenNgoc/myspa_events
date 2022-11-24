@@ -45,7 +45,6 @@ module.exports = {
       if (req.file == undefined) {
         return res.status(400).send("Please upload a CSV file!");
       }
-      console.log(req.file);
       let customers = [];
       let path = "uploads/" + req.file.filename;
 
@@ -60,10 +59,7 @@ module.exports = {
         .on("end", () => {
           Customers.bulkCreate(customers)
             .then(() => {
-              res.status(200).send({
-                message:
-                  "Uploaded the file successfully: " + req.file.originalname,
-              });
+              res.redirect("/customer");
             })
             .catch((error) => {
               res.status(500).send({
