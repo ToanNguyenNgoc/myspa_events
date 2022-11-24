@@ -80,13 +80,13 @@ module.exports = {
     Customers.findAll().then((objs) => {
       let customers = [];
       objs.forEach((obj) => {
-        const { id, name, ticket, position, phone, check_in } = obj;
-        Customers.push({ id, name, ticket, position, phone, check_in });
+        const { name, company, ticket, position, phone, check_in } = obj;
+        customers.push({ name, company, ticket, position, phone, check_in });
       });
 
       const csvFields = [
-        "STT",
         "Họ tên",
+        "Công ty",
         "Loại vé",
         "Vị trí",
         "SĐT",

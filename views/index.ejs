@@ -11,20 +11,19 @@
   <h3>
     Danh sách khách hàng
   </h3>
-  <form method="post" action="/upload" enctype="multipart/form-data">
-    <div>
-      <label>upload (CSV)</label>
-      <input
-        type="file"
-        id="file_uploads"
-        name="file"
-        accept=".CSV"
-         />
-    </div>
-    <div>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+      <div>
+        <label>Chọn file (.CSV)</label>
+        <input
+          type="file"
+          id="file_uploads"
+          name="file"
+          accept=".CSV"
+           />
+      </div>
       <button>Tải lên</button>
-    </div>
-  </form>
+    </form>
+  <button class="mt-2"><a href="/download" > Export (.CSV)</a></button>
   <table class="table  table-striped  table-hover">
     <thead>
       <tr>
