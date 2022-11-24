@@ -63,7 +63,7 @@
         <% if (data.current_page == 1) { %>
             <li class="disabled page-item"  ><a class="page-link">Trước</a></li>
         <% } else { %>
-            <li   page-item><a href="/customer?page=<%= (data.current_page-1) %>" class="page-link" >Trướ nè</a></li>
+            <li   page-item><a href="/customer?page=<%= (data.current_page-1) %>" class="page-link" >Trước</a></li>
         <% } %>
         <% var i = (Number(data.current_page) > 5 ? Number(data.current_page) - 4 : 1) %>
         <% if (i !== 1) { %>

@@ -13,10 +13,10 @@ module.exports = function (app) {
         if (data.length > 0) {
           const formatValue = data.map(
             (item) =>
-              `('${item.id}', '${item.name}', '${item.company}', '${item.phone}', '${item.check_in}')`
+              `('${item.id}', '${item.name}', '${item.company}',  '${item.ticket}', '${item.phone}', '${item.check_in}')`
           );
           const query =
-            "INSERT INTO `customers` (`id`, `name`, `company`, `phone`, `check_in`) VALUES" +
+            "INSERT INTO `customers` (`id`, `name`, `company`, `ticket`, `phone`, `check_in`) VALUES" +
             formatValue.join(",");
           res.send(responseFormat(query));
         } else res.send(responseFormat(null));
@@ -32,12 +32,7 @@ module.exports = function (app) {
   app.route("/api/customers").post((req, res) => {
     const { script } = req.body;
     script.forEach((element) => {
-      Customers.update(
-        { check_in: element.check_in },
-        {
-          where: { id: element.id },
-        }
-      );
+      const [results, metadata] = sequelize.query(element);
     });
     res.send({
       message: "send data success",

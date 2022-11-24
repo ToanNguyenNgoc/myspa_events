@@ -5,6 +5,8 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var livereload = require("livereload");
 var connectLiveReload = require("connect-livereload");
+var cors = require("cors");
+
 global.__basedir = __dirname + "/..";
 var indexRouter = require("./routes/index");
 const liveReloadServer = livereload.createServer();
@@ -21,7 +23,7 @@ app.use(connectLiveReload());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
