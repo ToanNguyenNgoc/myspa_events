@@ -4,7 +4,7 @@ services:
   nodejs:
     build: 
       context: .
-    image: myspa/nodejs-mysql-app
+    image: megabeehothanhminh/nodejs-mysql-app
     networks:
       - nodejs
     environment:
