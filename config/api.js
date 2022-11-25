@@ -1,10 +1,15 @@
 "use strict";
 const db = require("./db");
 const Customers = db.customers;
+const { Op } = require("sequelize");
 
 const responseFormat = (data) => {
   return { time: new Date(), query: data, update: [] };
 };
+/**
+ *
+ * @param {"2022-11-20 00:00:00"} time_fetch
+ */
 module.exports = function (app) {
   // todoList Routes
   app.route("/api/customers").get((req, res) => {
@@ -19,7 +24,7 @@ module.exports = function (app) {
             "INSERT INTO `customers` (`id`, `name`, `company`, `ticket`, `phone`, `check_in`) VALUES" +
             formatValue.join(",");
           res.send(responseFormat(query));
-        } else res.send(responseFormat(null));
+        } else res.send(responseFormat(""));
       })
       .catch((err) => {
         res.status(500).send({

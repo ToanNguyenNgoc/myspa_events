@@ -6,6 +6,8 @@ const upload = require("../services/upload");
 
 /* GET home page. */
 router.get("/customer", customersCtrl.get);
+/* GET home page. */
+router.post("/customer/:id", customersCtrl.update);
 // respond with "hello world" when a GET request is made to the homepage
 router.get("/", (req, res) => {
   res.send("hello world");

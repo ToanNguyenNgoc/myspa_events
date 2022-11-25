@@ -8,6 +8,7 @@ services:
     networks:
       - nodejs
     environment:
+      - MYSQL_PORT=3030
       - MYSQL_HOST=myspa-mysql
       - MYSQL_USER=root
       - MYSQL_PASS=root

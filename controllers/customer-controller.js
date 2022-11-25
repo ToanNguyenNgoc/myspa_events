@@ -40,6 +40,32 @@ module.exports = {
       });
   },
 
+  update: async (req, res, next) => {
+    const { fullname, position, ticket, company, phone } = req.body;
+    Customers.update(
+      {
+        name: fullname,
+        position,
+        ticket,
+        company,
+        phone,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    )
+      .then(() => {
+        res.redirect("/customer");
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Update data err!",
+        });
+      });
+  },
+
   upload: async (req, res) => {
     try {
       if (req.file == undefined) {
