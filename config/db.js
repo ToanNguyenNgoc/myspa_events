@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
     host: process.env.MYSQL_HOST || "localhost",
     dialect: "mysql",
     operatorsAliases: false,
-    dialectOptions: {
+    define: {
       charset: "utf8mb4",
       collate: "utf8mb4_vietnamese_ci",
     },
