@@ -106,12 +106,12 @@
   </table>
   <nav aria-label="Page navigation ">
   <% if (data.total_page > 1) { %>
-
+<% console.log(data.current_page) %> 
     <ul class="pagination">
-        <% if (data.current_page == 1) { %>
+        <% if (data.current_page <= 1) { %>
             <li class="disabled page-item"  ><a class="page-link">Trước</a></li>
         <% } else { %>
-            <li   page-item><a href="/customer?page=<%= (data.current_page-1) %>" class="page-link" >Trước</a></li>
+            <li   page-item><a href="/customer?page=<%= (data.current_page - 1) %>" class="page-link" >Trước</a></li>
         <% } %>
         <% var i = (Number(data.current_page) > 5 ? Number(data.current_page) - 4 : 1) %>
         <% if (i !== 1) { %>
@@ -129,9 +129,9 @@
             <% } %>
         <% } %>
         <% if (data.current_page == data.total_page) { %>
-            <li   page-item class="disabled"><a class="page-link">Last</a></li>
+            <li   page-item class="disabled"><a class="page-link">Cuối cùng</a></li>
         <% } else { %>
-            <li  page-item><a class="page-link" href="/customer?page=<%= data.total_page %>">Last</a></li>
+            <li  page-item><a class="page-link" href="/customer?page=<%= data.total_page %>">Cuối cùng</a></li>
         <% } %>
     </ul>
   <% } %>
