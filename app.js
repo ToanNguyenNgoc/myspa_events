@@ -34,8 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 let routes = require("./config/api"); //importing route
 let db = require("./config/db"); //importing route
 const Role = db.role;
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Db");
+db.sequelize.sync().then(() => {
   initial();
 });
 
