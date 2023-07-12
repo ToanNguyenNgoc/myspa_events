@@ -1,21 +1,21 @@
 "use strict";
 const { Sequelize, DataTypes } = require("sequelize");
-
-console.log(process.env)
+const dotenv = require("dotenv")
+dotenv.config();
 
 const sequelize = new Sequelize(
-  process.env.MYSQL_DB || "myspa_checkin",
-  process.env.MYSQL_USER || "root",
-  process.env.MYSQL_PASS || "06011998",
+  process.env.MYSQL_DB,
+  process.env.MYSQL_USER,
+  process.env.MYSQL_PASS,
   {
-    host: process.env.MYSQL_HOST || "localhost",
+    host: process.env.MYSQL_HOST,
     dialect: "mysql",
     operatorsAliases: false,
     define: {
       charset: "utf8mb4",
       collate: "utf8mb4_vietnamese_ci",
     },
-    port: process.MYSQL_PORT || "3306",
+    port: process.MYSQL_PORT,
     pool: {
       max: 5,
       min: 0,
