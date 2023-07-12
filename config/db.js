@@ -1,10 +1,12 @@
 "use strict";
 const { Sequelize, DataTypes } = require("sequelize");
 
+console.log(process.env)
+
 const sequelize = new Sequelize(
   process.env.MYSQL_DB || "myspa_checkin",
   process.env.MYSQL_USER || "root",
-  process.env.MYSQL_PASS || "",
+  process.env.MYSQL_PASS || "06011998",
   {
     host: process.env.MYSQL_HOST || "localhost",
     dialect: "mysql",

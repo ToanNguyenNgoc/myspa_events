@@ -14,7 +14,7 @@ services:
       - MYSQL_PASS=root
       - MYSQL_DB=myspa_checkin
     ports:
-      - "3031:3030"
+      - "4200:4200"
     container_name: nodejs-mysql-app
   mysql:
     platform: linux/x86_64
@@ -26,20 +26,20 @@ services:
       - MYSQL_PASSWORD=root
       - MYSQL_DATABASE=myspa_checkin
     container_name: myspa-mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:4.7
-    depends_on:
-      - mysql
-    networks:
-      - nodejs
-    ports:
-      - "3030:80"
-    environment:
-      - PMA_HOST=myspa-mysql
-      - PMA_PORT=3306
-    volumes:
-      - /sessions
-    container_name: myspa-phpmyadmin-app
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:4.7
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - nodejs
+  #   ports:
+  #     - "3030:80"
+  #   environment:
+  #     - PMA_HOST=myspa-mysql
+  #     - PMA_PORT=3306
+  #   volumes:
+  #     - /sessions
+  #   container_name: myspa-phpmyadmin-app
 volumes:
   mysql:
   phpmyadmin_data:

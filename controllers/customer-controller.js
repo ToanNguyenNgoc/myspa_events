@@ -124,9 +124,13 @@ module.exports = {
       res.setHeader("Content-Type", "text/csv");
       res.setHeader(
         "Content-Disposition",
-        "attachment; filename=tutorials.csv"
+        "attachment; filename=customers.csv"
       );
       res.status(200).end(csvData);
+    }).catch(() => {
+      res.status(500).send({
+        message: "Server error",
+      })
     });
   },
 };

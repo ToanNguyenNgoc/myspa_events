@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 let routes = require("./config/api"); //importing route
 let db = require("./config/db"); //importing route
 const Role = db.role;
-db.sequelize.sync().then(() => {
+db.sequelize.sync({force:false}).then(() => {
   initial();
 });
 
@@ -63,6 +63,9 @@ app.use(function (err, req, res, next) {
   console.log(err, "Error");
   res.render("error");
 });
+app.listen(4004, () => {
+  console.log(`Example app listening port ${4004}`);
+})
 
 module.exports = app;
 
