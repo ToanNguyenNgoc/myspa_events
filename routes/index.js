@@ -14,7 +14,7 @@ router.get("/login", (req, res) => {
 /* GET home page. */
 router.get(
   "/customer",
-  // [authJwt.verifyToken],
+  [authJwt.verifyToken],
   customersCtrl.get
 );
 /* GET home page. */
