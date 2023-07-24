@@ -34,9 +34,10 @@ app.use(express.static(path.join(__dirname, "public")));
 let routes = require("./config/api"); //importing route
 let db = require("./config/db"); //importing route
 const Role = db.role;
-db.sequelize.sync({force:false}).then(() => {
-  initial();
-});
+
+// db.sequelize.sync({force:false}).then(() => {
+//   initial();
+// });
 
 routes(app);
 

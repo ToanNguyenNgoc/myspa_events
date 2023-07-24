@@ -12,7 +12,11 @@ router.get("/login", (req, res) => {
 });
 
 /* GET home page. */
-router.get("/customer", [authJwt.verifyToken], customersCtrl.get);
+router.get(
+  "/customer",
+  // [authJwt.verifyToken],
+  customersCtrl.get
+);
 /* GET home page. */
 router.post("/customer/:id", customersCtrl.update);
 // respond with "hello world" when a GET request is made to the homepage

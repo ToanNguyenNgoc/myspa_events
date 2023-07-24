@@ -1,6 +1,7 @@
 "use strict";
 
 const db = require("../config/db");
+const { Op } = require('sequelize')
 
 const fs = require("fs");
 const csv = require("fast-csv");
@@ -20,17 +21,33 @@ const getPagingData = (data, page, limit) => {
 
   return { total, data: rows, total_page, current_page };
 };
+const convertToBoolean = (value) => {
+  let result = true
+  if (value === 'false') result = false
+  return result
+}
 module.exports = {
   get: (req, res) => {
-    const { page } = req.query;
+    const { page, keyword = '', check_in } = req.query;
     const { limit, offset } = getPagination(page - 1, 15);
     Customers.findAndCountAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.substring]: keyword } },
+          { phone: { [Op.startsWith]: keyword } },
+          { company: { [Op.substring]: keyword } }
+        ],
+        [Op.and]: [
+          check_in ? { check_in: convertToBoolean(check_in) } : {}
+        ]
+      },
       limit: limit,
       offset: offset,
     })
       .then((data) => {
         const response = getPagingData(data, page, limit);
         res.render("index", { data: response });
+        // res.send(data)
       })
       .catch((err) => {
         res.status(500).send({

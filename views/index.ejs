@@ -1,146 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('./partials/head'); %>
 </head>
+
 <body class="container">
 
 
 
-<main class="height: 100%">
-  <h3>
-    Danh sách khách hàng
-  </h3>
+  <main class="height: 100%">
+    <h3>
+      Danh sách khách hàng
+    </h3>
     <form method="post" action="/upload" enctype="multipart/form-data">
       <div>
         <label>Chọn file (.CSV)</label>
-        <input
-          type="file"
-          id="file_uploads"
-          name="file"
-          accept=".CSV"
-           />
+        <input type="file" id="file_uploads" name="file" accept=".CSV" />
       </div>
       <button>Tải lên</button>
     </form>
-  <button class="mt-2"><a href="/download" > Export (.CSV)</a></button>
-  <table class="table  table-striped  table-hover">
-    <thead>
-      <tr>
-        <th scope="col">STT</th>
-        <th scope="col">Họ tên</th>
-        <th scope="col">Chức vụ</th>
-        <th scope="col">Loại vé</th>
-        <th scope="col">Công ty</th>
-        <th scope="col">Số điện thoại</th>
-        <th scope="col">Check in</th>
-        <th scope="col">Chức năng</th>
-      </tr>
-    </thead>
-    <tbody class="table-group-divider">
-      <% data.data.forEach(function(item, index) { %>
-      <tr>
-        <th scope="row"><%= data.current_page > 1 ?  ((data.current_page - 1)  * 15) + (index + 1)  :  index+1%></th>
-        <td><%= item.name%></td>
-        <td><%= item.position%></td>
-        <td><%= item.ticket%></td>
-        <td><%= item.company%></td>
-        <td><%= item.phone%></td>
-        <td class="d-flex justify-content-center">
-            <span class="badge badge-pill {<%= item.check_in ? 'badge badge-success' : 'badge badge-warning' %> }"
-              ><%= item.check_in ? 'Đã đến event' : 'Chưa hoàn thành' %></span>
-        </td>
-        <td>
-          <!-- Button trigger modal -->
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editCustomerModal<%=item.id%>">
-        Sửa
-        </button>    <!-- Modal -->
-        <div class="modal fade" id="editCustomerModal<%=item.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <form  method="post"  action="/customer/<%= item.id %> ">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Cập nhật thông tin</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                
-                    <div class="form-group">
-                      <label for="fullname">Họ tên</label>
-                      <input name="fullname" value="<%= item.name %> " type="text" class="form-control" id="fullname" aria-describedby="emailHelp">
+    <button class="mt-2"><a href="/download"> Export (.CSV)</a></button>
+    <div class="my-2 d-flex justify-content-between">
+      <input id="search_input" type="text" class="form-control col-lg-9"
+        placeholder="Tìm kiếm Họ tên, công ty, số điện thoại...">
+      <div class="input-group col-lg-3 pr-0">
+        <div class="input-group-prepend">
+          <label class="input-group-text">Check in</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect">
+          <option class="check_in" value="">Tất cả</option>
+          <option class="check_in" value="true">Đã đến event</option>
+          <option class="check_in" value="false">Chưa hoàn thành</option>
+        </select>
+      </div>
+    </div>
+    <div class="mb-4 d-flex justify-content-end">
+      <button id="search_btn" type="button" class="btn btn-success">Áp dụng</button>
+    </div>
+    <table class="table  table-striped  table-hover">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Họ tên</th>
+          <th scope="col">Chức vụ</th>
+          <th scope="col">Loại vé</th>
+          <th scope="col">Công ty</th>
+          <th scope="col">Số điện thoại</th>
+          <th scope="col">Check in</th>
+          <th scope="col">Chức năng</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <% data.data.forEach(function(item, index) { %>
+          <tr>
+            <th scope="row">
+              <%= data.current_page> 1 ? ((data.current_page - 1) * 15) + (index + 1) : index+1%>
+            </th>
+            <td>
+              <%= item.name%>
+            </td>
+            <td>
+              <%= item.position%>
+            </td>
+            <td>
+              <%= item.ticket%>
+            </td>
+            <td>
+              <%= item.company%>
+            </td>
+            <td>
+              <%= item.phone%>
+            </td>
+            <td class="d-flex justify-content-center">
+              <span class="badge badge-pill {<%= item.check_in ? 'badge badge-success' : 'badge badge-warning' %> }">
+                <%= item.check_in ? 'Đã đến event' : 'Chưa hoàn thành' %>
+              </span>
+            </td>
+            <td>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-info" data-toggle="modal"
+                data-target="#editCustomerModal<%=item.id%>">
+                Sửa
+              </button> <!-- Modal -->
+              <div class="modal fade" id="editCustomerModal<%=item.id%>" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <form method="post" action="/customer/<%= item.id %> ">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cập nhật thông tin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="form-group">
+                          <label for="fullname">Họ tên</label>
+                          <input name="fullname" value="<%= item.name %> " type="text" class="form-control"
+                            id="fullname" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group">
+                          <label for="position">Chức vụ</label>
+                          <input name="position" value="<%= item.position %> " type="text" class="form-control"
+                            id="position">
+                        </div>
+                        <div class="form-group">
+                          <label for="ticket">Loại vé</label>
+                          <input name="ticket" value="<%= item.ticket %> " type="text" class="form-control" id="ticket">
+                        </div>
+                        <div class="form-group">
+                          <label for="company">Công ty</label>
+                          <input name="company" value="<%= item.company %> " type="text" class="form-control"
+                            id="company">
+                        </div>
+                        <div class="form-group">
+                          <label for="phone">Số điện thoại</label>
+                          <input name="phone" value="<%= item.phone %> " type="text" class="form-control" id="phone">
+                        </div>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label for="position">Chức vụ</label>
-                      <input name="position"  value="<%= item.position %> "type="text" class="form-control" id="position">
-                    </div>
-                    <div class="form-group">
-                      <label for="ticket">Loại vé</label>
-                      <input name="ticket"  value="<%= item.ticket %> "type="text" class="form-control" id="ticket">
-                    </div>
-                    <div class="form-group">
-                      <label for="company">Công ty</label>
-                      <input name="company" value="<%= item.company %> " type="text" class="form-control" id="company">
-                    </div>
-                    <div class="form-group">
-                      <label for="phone">Số điện thoại</label>
-                      <input name="phone" value="<%= item.phone %> " type="text" class="form-control" id="phone">
-                    </div>
-                  
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                  <button type="submit" class="btn btn-primary">Lưu</button>
+                  </form>
                 </div>
               </div>
-            </form>
-          </div>
-        </div>
-        </td>
-      </tr>
-      <% }); %>
-     
-     
-    </tbody>
-  </table>
-  <nav aria-label="Page navigation ">
-  <% if (data.total_page > 1) { %>
-<% console.log(data.current_page) %> 
-    <ul class="pagination">
-        <% if (data.current_page <= 1) { %>
-            <li class="disabled page-item"  ><a class="page-link">Trước</a></li>
-        <% } else { %>
-            <li   page-item><a href="/customer?page=<%= (data.current_page - 1) %>" class="page-link" >Trước</a></li>
-        <% } %>
-        <% var i = (Number(data.current_page) > 5 ? Number(data.current_page) - 4 : 1) %>
-        <% if (i !== 1) { %>
-          <li class="disabled page-item"><a class="page-link" >...</a></li>
-        <% } %>
-       
-        <% for (; i <= (Number(data.current_page) + 4) && i <= data.total_page; i++) { %>
-            <% if (i == data.current_page) { %>
-                <li class="active page-item"><a  class="page-link" ><%= i %></a></li>
-            <% } else { %>
-                <li class="page-item" ><a class="page-link"  href="/customer?page=<%= i %>"><%= i %></a></li>
-            <% } %>
-            <% if (i == Number(data.current_page) + 4 && i < data.total_page) { %>
-                <li class="disabled"><a>...</a></li>
-            <% } %>
-        <% } %>
-        <% if (data.current_page == data.total_page) { %>
-            <li   page-item class="disabled"><a class="page-link">Cuối cùng</a></li>
-        <% } else { %>
-            <li  page-item><a class="page-link" href="/customer?page=<%= data.total_page %>">Cuối cùng</a></li>
-        <% } %>
-    </ul>
-  <% } %>
-  </nav>
-  <!-- Modal -->
-</main>
+            </td>
+          </tr>
+          <% }); %>
 
-<footer>
-  <%- include('./partials/footer'); %>
-</footer>
+
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation ">
+      <% if (data.total_page> 1) { %>
+        <% console.log(data.current_page) %>
+          <ul class="pagination">
+            <% if (data.current_page <=1) { %>
+              <li class="disabled page-item"><a class="page-link">Trước</a></li>
+              <% } else { %>
+                <li page-item><a href="/customer?page=<%= (data.current_page - 1) %>" class="page-link">Trước</a></li>
+                <% } %>
+                  <% var i=(Number(data.current_page)> 5 ? Number(data.current_page) - 4 : 1) %>
+                    <% if (i !==1) { %>
+                      <li class="disabled page-item"><a class="page-link">...</a></li>
+                      <% } %>
+
+                        <% for (; i <=(Number(data.current_page) + 4) && i <=data.total_page; i++) { %>
+                          <% if (i==data.current_page) { %>
+                            <li class="active page-item"><a class="page-link">
+                                <%= i %>
+                              </a></li>
+                            <% } else { %>
+                              <li class="page-item"><a class="page-link" href="/customer?page=<%= i %>">
+                                  <%= i %>
+                                </a></li>
+                              <% } %>
+                                <% if (i==Number(data.current_page) + 4 && i < data.total_page) { %>
+                                  <li class="disabled"><a>...</a></li>
+                                  <% } %>
+                                    <% } %>
+                                      <% if (data.current_page==data.total_page) { %>
+                                        <li page-item class="disabled"><a class="page-link">Cuối cùng</a></li>
+                                        <% } else { %>
+                                          <li page-item><a class="page-link"
+                                              href="/customer?page=<%= data.total_page %>">Cuối cùng</a></li>
+                                          <% } %>
+          </ul>
+          <% } %>
+    </nav>
+    <!-- Modal -->
+  </main>
+
+  <footer>
+    <%- include('./partials/footer'); %>
+  </footer>
 </body>
+<script type="module" >
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const {origin, pathname} = window.location
+  const params = Object.fromEntries(urlSearchParams.entries())
+  const searchBtn = document.getElementById('search_btn')
+  const searchInput = document.getElementById('search_input')
+  const inputGroupSelect = document.getElementById('inputGroupSelect');
+  searchInput.setAttribute('value', params.keyword || '')
+  var selectedValue = ''
+  inputGroupSelect.addEventListener('change', () => {
+    selectedValue = inputGroupSelect.value;
+  });
+  searchBtn.addEventListener('click', () => {
+    const qs ={keyword:searchInput.value.trim(), check_in:selectedValue}
+    const newQs = '?' + new URLSearchParams(removeEmptyValues(qs)).toString()
+    window.location.assign(`${origin}${pathname}${newQs}`)
+  })
+
+  var removeEmptyValues=(obj)=> {
+  const result = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const value = obj[key];
+
+      if (value !== null && value !== undefined && value !== '') {
+        result[key] = value;
+      }
+    }
+  }
+  return result;
+}
+</script>
+
 </html>
